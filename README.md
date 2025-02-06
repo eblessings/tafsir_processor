@@ -10,18 +10,17 @@ An advanced, memory-efficient processor for tafsir XML files. This tool parses c
 ## Table of Contents
 
 - [Overview](#overview)
-- - [Features](#features)
-  - - [Directory Structure](#directory-structure)
-    - - [Installation](#installation)
-      - - [Usage](#usage)
-        - - [Advanced Analysis](#advanced-analysis)
-          - - [Uploading to GitHub](#uploading-to-github)
-            - - [Contributing](#contributing)
-              - - [License](#license)
+- [Features](#features)
+- [Directory Structure](#directory-structure)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Advanced Analysis](#advanced-analysis)
+- [Uploading to GitHub](#uploading-to-github)
+- [Contributing](#contributing)
+- [License](#license)
                
-                - ## Overview
-               
-                - This project processes tafsir files that are formatted in XML. The file is expected to contain a structure similar to the following:
+ - ## Overview
+   - This project processes tafsir files that are formatted in XML. The file is expected to contain a structure similar to the following:
                
                 - ```xml
                   <qurantafseer name="Sayyid Abul Ala Maududi">
