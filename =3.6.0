@@ -1,0 +1,17 @@
+Collecting nltk
+  Using cached nltk-3.9.1-py3-none-any.whl.metadata (2.9 kB)
+Collecting click (from nltk)
+  Using cached click-8.1.8-py3-none-any.whl.metadata (2.3 kB)
+Collecting joblib (from nltk)
+  Using cached joblib-1.4.2-py3-none-any.whl.metadata (5.4 kB)
+Collecting regex>=2021.8.3 (from nltk)
+  Using cached regex-2024.11.6-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (40 kB)
+Collecting tqdm (from nltk)
+  Using cached tqdm-4.67.1-py3-none-any.whl.metadata (57 kB)
+Using cached nltk-3.9.1-py3-none-any.whl (1.5 MB)
+Using cached regex-2024.11.6-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (796 kB)
+Using cached click-8.1.8-py3-none-any.whl (98 kB)
+Using cached joblib-1.4.2-py3-none-any.whl (301 kB)
+Using cached tqdm-4.67.1-py3-none-any.whl (78 kB)
+Installing collected packages: tqdm, regex, joblib, click, nltk
+Successfully installed click-8.1.8 joblib-1.4.2 nltk-3.9.1 regex-2024.11.6 tqdm-4.67.1
