@@ -1,67 +1,53 @@
 ````markdown
 # Tafsir Processor
 
-[![Python Version](https://img.shields.io/badge/python-3.7%2B-blue)](https://www.python.org/)  
-[![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)  
-[![Build Status](https://img.shields.io/github/actions/workflow/status/your-username/tafsir-processor/ci.yml)](https://github.com/your-username/tafsir-processor/actions)  
+[![Python Version](https://img.shields.io/badge/python-3.7%2B-blue.svg)](https://www.python.org/)  
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)  
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()  
 
-An advanced, memory‑efficient tool for parsing, analyzing, and structuring Quranic **tafsir** XML files into enriched JSON outputs. Leveraging **lxml**, **NLTK**, and **spaCy**, Tafsir Processor handles irregular tags, extracts commentary markers, and performs deep NLP to produce ready‑to‑use JSON for downstream applications.
+An advanced, memory-efficient processor for Qur’anic **tafsir** XML files.  
+It parses complex, irregularly tagged tafsir documents (with `<sura>`, `<aya>`, and `<footer>` elements), applies sophisticated NLP analyses via NLTK and spaCy, and emits clean, structured JSON per sūra—ready for downstream consumption, extension, or data-science workflows.
 
 ---
 
-## 📖 Table of Contents
+## 📑 Table of Contents
 
-1. [Key Features](#-key-features)  
-2. [Project Structure](#-project-structure)  
-3. [Getting Started](#-getting-started)  
+1. [Key Features](#key-features)  
+2. [Getting Started](#getting-started)  
    - [Prerequisites](#prerequisites)  
    - [Installation](#installation)  
-4. [Usage](#-usage)  
-5. [Advanced Analysis](#-advanced-analysis)  
-6. [Configuration & Customization](#-configuration--customization)  
-7. [Logging & Monitoring](#-logging--monitoring)  
-8. [Contribution Guidelines](#-contribution-guidelines)  
-9. [License](#-license)  
+3. [Project Layout](#project-layout)  
+4. [Usage](#usage)  
+   - [Basic Run](#basic-run)  
+   - [Configuration & Options](#configuration--options)  
+5. [Advanced NLP Analysis](#advanced-nlp-analysis)  
+6. [Logging & Outputs](#logging--outputs)  
+7. [Contributing](#contributing)  
+8. [License](#license)  
+9. [Contact & Support](#contact--support)  
 
 ---
 
-## ✨ Key Features
+## 🔑 Key Features
 
 - **Resilient XML Parsing**  
-  - Uses `lxml` with recovery mode to tolerate minor malformations.  
-- **Structured Extraction**  
-  - Captures sura metadata (name, theme, background) and aya content (text, markers).  
-  - Aligns markers with footer commentary for precise mapping.  
-- **Deep NLP Insights**  
-  - **NLTK**: Tokenization, stop‑word removal, frequency distribution, keyword extraction.  
-  - **spaCy**: Named Entity Recognition (NER) and noun‑chunk extraction.  
-- **Memory‑Conscious Workflow**  
-  - Stream‑based parsing and periodic garbage collection to process large files.  
-- **Modular & Extensible**  
-  - Easily adjust regex patterns or swap in other NLP pipelines.  
-- **Comprehensive Logging**  
-  - Detailed logs for processing steps, errors, and performance metrics.
+  Uses **lxml** with recovery mode to handle minor markup errors and irregular structures.
 
----
+- **Per-Sūra JSON Output**  
+  Clean, hierarchical JSON files—one per sūra—containing metadata, raw & cleaned text, markers, footnotes, and NLP results.
 
-## 🗂 Project Structure
+- **Dual NLP Engines**  
+  - **NLTK** for tokenization, stop-word removal, frequency distributions, and keyword extraction.  
+  - **spaCy** for named-entity recognition (NER) and noun-chunk extraction.
 
-```plaintext
-tafsir-processor/
-├── data/
-│   └── maududi-tafsir.xml       # Input XML file(s)
-├── output/                      # Generated JSON outputs per sura
-├── logs/
-│   └── processor.log            # Processing and error logs
-├── src/
-│   └── tafsir_processor.py      # Core processing logic
-├── tests/
-│   └── test_tafsir_processor.py # Unit & integration tests
-├── .github/
-│   └── workflows/ci.yml         # CI configuration
-├── requirements.txt             # Python dependencies
-└── README.md                    # Project documentation
-````
+- **Marker-Footer Matching**  
+  Automatically links `{1}`, `{2}`, … markers in aya text to their corresponding `<footer>` commentary.
+
+- **Memory-Conscious Processing**  
+  Incorporates streaming, chunked parsing, and explicit garbage collection to keep RAM footprint low.
+
+- **Extensible & Configurable**  
+  Tweak regex patterns, enable/disable specific analyses, or plug in new NLP modules with minimal changes.
 
 ---
 
@@ -69,24 +55,26 @@ tafsir-processor/
 
 ### Prerequisites
 
-* **Python 3.7** or later
-* **pip** (package installer)
+- **Python** ≥ 3.7  
+- **pip** ≥ 20.0  
+
+(Optional but recommended)  
+- A POSIX-compatible shell (Linux / macOS / WSL on Windows)
 
 ### Installation
 
-1. **Clone the repository**
-
+1. **Clone the repository**  
    ```bash
-   git clone https://github.com/your-username/tafsir-processor.git
+   git clone https://github.com/<your-username>/tafsir-processor.git
    cd tafsir-processor
-   ```
+````
 
-2. **Create & activate a virtual environment** (recommended)
+2. **(Optional) Create & activate a virtual environment**
 
    ```bash
    python3 -m venv venv
-   source venv/bin/activate     # Linux/macOS
-   venv\Scripts\activate        # Windows
+   source venv/bin/activate   # Linux/macOS
+   venv\Scripts\activate      # Windows PowerShell
    ```
 
 3. **Install dependencies**
@@ -96,86 +84,135 @@ tafsir-processor/
    python -m spacy download en_core_web_sm
    ```
 
+> **Note:** On first run, the script will auto-download required NLTK corpora (`punkt`, `stopwords`, etc.) if missing.
+
 ---
 
-## 🎯 Usage
+## 📂 Project Layout
 
-1. **Prepare Input**
-   Place your tafsir XML (e.g., `maududi-tafsir.xml`) in `data/`.
-2. **Run Processor**
+```text
+tafsir-processor/
+├── data/
+│   └── maududi-tafsir.xml        # Sample/input tafsir XML file
+├── output/
+│   └── sura_<index>.json         # Generated per-sūra JSON files
+├── logs/
+│   └── tafsir_processor.log      # Processing & error logs
+├── src/
+│   └── tafsir_processor.py       # Core processing script
+├── requirements.txt              # Python dependency list
+└── README.md                     # This documentation
+```
+
+---
+
+## 🛠️ Usage
+
+### Basic Run
+
+1. Place your tafsir XML (`.xml`) file in `data/` (e.g. `data/maududi-tafsir.xml`).
+
+2. Execute the processor:
 
    ```bash
    python -m src.tafsir_processor \
      --input data/maududi-tafsir.xml \
      --output output/ \
-     --log logs/processor.log
+     --log logs/tafsir_processor.log
    ```
-3. **Inspect Results**
-   Each sura is output as `sura_<index>.json` in `output/`. Open to view structured metadata, aya text, marker mappings, and NLP analysis.
 
----
+3. Inspect JSON outputs in `output/` and logs in `logs/`.
 
-## 🔬 Advanced Analysis
+### Configuration & Options
 
-Tafsir Processor enriches output with:
-
-* **Keyword Extraction**
-  Top-N keywords per aya based on frequency and TF-IDF.
-* **Named Entity Recognition**
-  Identifies persons, places, dates, and events in commentary.
-* **Noun‑Chunk Analysis**
-  Extracts important phrase structures for thematic indexing.
-
-Customize thresholds and patterns via the `--config` flag or by editing `src/config.yml`.
-
----
-
-## ⚙️ Configuration & Customization
-
-A sample `config.yml` allows you to:
-
-```yaml
-nltk:
-  stopwords: true
-  top_keywords: 10
-
-spacy:
-  model: en_core_web_sm
-  ner: true
-  noun_chunks: true
-
-xml:
-  recovery: true
-  marker_pattern: '\{(\d+)\}'
-```
-
-Load custom settings:
+Run `--help` to see all available flags:
 
 ```bash
-python -m src.tafsir_processor --config config.yml
+python -m src.tafsir_processor --help
 ```
 
+Common options:
+
+| Flag                     | Description                                                        | Default              |
+| ------------------------ | ------------------------------------------------------------------ | -------------------- |
+| `--input <path>`         | Path to input XML file                                             | `data/*.xml`         |
+| `--output <dir>`         | Directory to write JSON files                                      | `output/`            |
+| `--log <file>`           | Path to write processing logs                                      | `logs/processor.log` |
+| `--disable-nltk`         | Skip NLTK-based analysis                                           | *false*              |
+| `--disable-spacy`        | Skip spaCy NER & noun-chunk extraction                             | *false*              |
+| `--gc-threshold <bytes>` | Force garbage collection after this many bytes processed per chunk | `100e6`              |
+| `--verbose`              | Print detailed progress to console                                 | *false*              |
+
 ---
 
-## 📊 Logging & Monitoring
+## 📊 Advanced NLP Analysis
 
-* **Log Levels**: INFO, WARNING, ERROR
-* **Location**: `logs/processor.log`
-* **Metrics**: Processing time per sura, memory usage alerts
+* **NLTK Pipeline**
+
+  1. Tokenize aya text.
+  2. Remove stop words & punctuation.
+  3. Compute frequency distribution & extract top 10 keywords.
+
+* **spaCy Pipeline**
+
+  1. Load `en_core_web_sm`.
+  2. Perform NER: PERSON, ORG, GPE, etc.
+  3. Extract noun chunks for thematic insight.
+
+*All analysis results are embedded under each aya’s `"analysis"` field in the JSON.*
 
 ---
 
-## 🤝 Contribution Guidelines
+## 📥 Logging & Outputs
 
-Contributions and bug reports are welcome! Please:
+* **Logs**
+  Detailed debug, info, and error messages are written to the specified log file.
+* **JSON Schema**
+  Each `sura_<n>.json` follows:
 
-1. **Fork** the repo
-2. **Create** a feature branch (`git checkout -b feature/foo`)
-3. **Commit** your changes (`git commit -am 'Add foo feature'`)
-4. **Push** to the branch (`git push origin feature/foo`)
-5. **Open** a Pull Request
+  ```json
+  {
+    "sura_index": 1,
+    "name": "...",
+    "theme": "...",
+    "aya": [
+      {
+        "aya_index": "1-3",
+        "text_raw": "...",
+        "text_clean": "...",
+        "markers": [1,2,3],
+        "footers": {
+          "1": "...",
+          "...": "..."
+        },
+        "analysis": {
+          "keywords": [...],
+          "frequency": {...},
+          "entities": [...],
+          "noun_chunks": [...]
+        }
+      },
+      ...
+    ]
+  }
+  ```
 
-Refer to `CONTRIBUTING.md` for detailed instructions.
+---
+
+## 🤝 Contributing
+
+We welcome improvements! To contribute:
+
+1. **Fork** this repository.
+2. **Create** a new branch:
+
+   ```bash
+   git checkout -b feature/my-feature
+   ```
+3. **Commit** your changes with clear messages.
+4. **Push** your branch and open a **Pull Request**.
+
+Please ensure all checks pass and include tests for new features.
 
 ---
 
@@ -185,7 +222,12 @@ This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for d
 
 ---
 
-> *Happy processing! For questions or support, open an issue or reach out on the project’s discussion board.*
+## 📬 Contact & Support
+
+– **Issues & Bugs:** Open an issue on GitHub.
+– **Questions & Discussions:** Use the Discussions tab or email **[youremail@example.com](mailto:youremail@example.com)**.
+
+Happy processing!
 
 ```
 ```
