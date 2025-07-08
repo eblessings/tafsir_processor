@@ -225,7 +225,7 @@ This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for d
 📬 Contact & Support
 
 – **Issues & Bugs:** Open an issue on GitHub.
-– **Questions & Discussions:** Use the Discussions tab or email **[youremail@example.com](mailto:youremail@example.com)**.
+– **Questions & Discussions:** Use the Discussions tab or email **[hussain@eblessing.co](mailto:hussain@eblessing.co)**.
 
 Happy processing!
 
