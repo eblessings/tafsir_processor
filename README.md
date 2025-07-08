@@ -1,16 +1,16 @@
-````markdown
-# Tafsir Processor
 
+Tafsir Processor
+````markdown
 [![Python Version](https://img.shields.io/badge/python-3.7%2B-blue.svg)](https://www.python.org/)  
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)  
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()  
-
+````
+---
 An advanced, memory-efficient processor for Qur’anic **tafsir** XML files.  
 It parses complex, irregularly tagged tafsir documents (with `<sura>`, `<aya>`, and `<footer>` elements), applies sophisticated NLP analyses via NLTK and spaCy, and emits clean, structured JSON per sūra—ready for downstream consumption, extension, or data-science workflows.
 
----
 
-## 📑 Table of Contents
+📑 Table of Contents
 
 1. [Key Features](#key-features)  
 2. [Getting Started](#getting-started)  
@@ -28,7 +28,7 @@ It parses complex, irregularly tagged tafsir documents (with `<sura>`, `<aya>`, 
 
 ---
 
-## 🔑 Key Features
+🔑 Key Features
 
 - **Resilient XML Parsing**  
   Uses **lxml** with recovery mode to handle minor markup errors and irregular structures.
@@ -49,11 +49,11 @@ It parses complex, irregularly tagged tafsir documents (with `<sura>`, `<aya>`, 
 - **Extensible & Configurable**  
   Tweak regex patterns, enable/disable specific analyses, or plug in new NLP modules with minimal changes.
 
----
 
-## 🚀 Getting Started
 
-### Prerequisites
+🚀 Getting Started
+
+Prerequisites
 
 - **Python** ≥ 3.7  
 - **pip** ≥ 20.0  
@@ -61,7 +61,7 @@ It parses complex, irregularly tagged tafsir documents (with `<sura>`, `<aya>`, 
 (Optional but recommended)  
 - A POSIX-compatible shell (Linux / macOS / WSL on Windows)
 
-### Installation
+ **Installation**
 
 1. **Clone the repository**  
    ```bash
@@ -87,8 +87,8 @@ It parses complex, irregularly tagged tafsir documents (with `<sura>`, `<aya>`, 
 > **Note:** On first run, the script will auto-download required NLTK corpora (`punkt`, `stopwords`, etc.) if missing.
 
 ---
-
-## 📂 Project Layout
+````
+📂 Project Layout
 
 ```text
 tafsir-processor/
@@ -106,7 +106,7 @@ tafsir-processor/
 
 ---
 
-## 🛠️ Usage
+🛠️ Usage
 
 ### Basic Run
 
@@ -163,7 +163,7 @@ Common options:
 
 ---
 
-## 📥 Logging & Outputs
+📥 Logging & Outputs
 
 * **Logs**
   Detailed debug, info, and error messages are written to the specified log file.
@@ -199,7 +199,7 @@ Common options:
 
 ---
 
-## 🤝 Contributing
+🤝 Contributing
 
 We welcome improvements! To contribute:
 
@@ -216,13 +216,13 @@ Please ensure all checks pass and include tests for new features.
 
 ---
 
-## 📄 License
+📄 License
 
 This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
 
 ---
 
-## 📬 Contact & Support
+📬 Contact & Support
 
 – **Issues & Bugs:** Open an issue on GitHub.
 – **Questions & Discussions:** Use the Discussions tab or email **[youremail@example.com](mailto:youremail@example.com)**.
